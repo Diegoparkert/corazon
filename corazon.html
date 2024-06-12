@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>corazonlatiendo</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: #0b1522;
+        }
+        .heart {
+            height: 150px;
+            width: 150px;
+            background-color: red;
+            position: relative;
+            transform: rotate(45deg);
+            box-shadow: -20px 20px 150px #f20044;
+            animation: palpitar 0.5s linear infinite alternate;
+        }
+        .contenido {
+            text-align: center;
+            margin-top: 20px;
+        }
+        h1, h2 {
+            color: white;
+            margin: 5px 0;
+        }
+        @keyframes palpitar {
+            0% { transform: rotate(45deg) scale(1.10); }
+            80% { transform: rotate(45deg) scale(1.0); }
+            100% { transform: rotate(45deg) scale(0.8); }
+        }
+        .heart::before {
+            content: "";
+            position: absolute;
+            height: 150px;
+            width: 150px;
+            background: red;
+            right: 50%;
+            border-radius: 50%;
+            box-shadow: 20px 20px 150px #f20044;
+        }
+        .heart::after {
+            content: "";
+            position: absolute;
+            height: 150px;
+            width: 150px;
+            background: red;
+            top: -50%;
+            border-radius: 50%;
+            box-shadow: 20px 20px 150px #f20044;
+        }
+        .upload-form {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .upload-form input[type="file"] {
+            padding: 5px;
+        }
+        .upload-form button {
+            padding: 5px 10px;
+            margin-top: 10px;
+            background-color: #f20044;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .uploaded-image {
+            margin-top: 20px;
+        }
+        .uploaded-image img {
+            max-width: 100%;
+            height: auto;
+            border: 2px solid #f20044;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="heart"></div>
+    <div class="contenido"><h1>Rosita</h1><h2>.....</h2></div>
+    <div class="upload-form">
+        <form id="uploadForm" enctype="multipart/form-data">
+            <input type="file" id="fileInput" required>
+            <button type="submit">Subir Foto</button>
+        </form>
+        <div class="uploaded-image" id="uploadedImage"></div>
+    </div>
+
+    <script>
+        document.getElementById('uploadForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const fileInput = document.getElementById('fileInput');
+            const uploadedImage = document.getElementById('uploadedImage');
+
+            if (fileInput.files && fileInput.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    uploadedImage.innerHTML = '';
+                    uploadedImage.appendChild(img);
+                }
+                reader.readAsDataURL(fileInput.files[0]);
+            }
+        });
+    </script>
+</body>
+</html>
